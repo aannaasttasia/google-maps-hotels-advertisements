@@ -1,6 +1,6 @@
 export const containerStyle = {
     width: "100%",
-    height: "75vh",
+    height: "80vh",
   };
   
 export const center = {

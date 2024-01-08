@@ -1,8 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto+Mono:ital,wght@1,300&display=swap");
 .map__google-map {
   margin: 0 auto;
   display: block;
   width: 100%;
-  height: 100%;
   padding: 29px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -20,7 +20,10 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  height: 100vh;
+  height: 95vh;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .map__form-wrapper {
@@ -46,16 +49,28 @@
 }
 
 .map__hotel-list {
-  height: 100vh;
+  height: 95vh;
   overflow: scroll;
-  padding: 10px 15px 0px 20px;
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .map__hotel-list ul {
   list-style: none;
   padding: 0;
-  margin: 2px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -98,8 +113,74 @@
   background-color: rgba(174, 170, 170, 0.917);
 }
 
-.mouseOver {
+.active-marker {
   -webkit-transform: scale(1.07);
           transform: scale(1.07);
+}
+
+.map__list-name {
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+}
+
+.map__addNewHotel {
+  background-color: #284b63c8;
+  color: #EEF0EB;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.map__addNewHotel:hover {
+  background-color: #0056b3;
+}
+
+.map__tip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.tip {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #fff;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  min-width: 600px;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  z-index: 5;
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 19px;
+}
+
+.tip__tips {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 /*# sourceMappingURL=Map.css.map */

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Ref, useRef } from "react";
+import React, { useState, useEffect, Ref, useRef, useId } from "react";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import "./css/Map.scss";
 import { MarkerComponent } from "../Marker/Marker";
@@ -9,6 +9,7 @@ import AddMarkerFormComponent from "../AddMarker/AddMarkerForm";
 import { motion } from "framer-motion";
 import { act } from "react-dom/test-utils";
 import { ActiveMarker } from "../ActiveMarker/ActiveMarker";
+import Tip from "./Tip";
 
 export const Map = () => {
   const [activeMarker, setActiveMarker] = useState<MarkerType | null>(null);
@@ -17,7 +18,11 @@ export const Map = () => {
   const [position, setPosition] = useState<CoordinatesType | null>(null);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [allMarkers, setAllMarkers] = useState<MarkerType[]>(markers);
-  const [mouseOver, setMouseOver] = useState<boolean>(false);
+  const [markerSelectedId, setMarkerSelectedId] = useState<number | null>(null);
+  const [lastAssignedId, setLastAssignedId] = useState<number>(5);
+  const [allowToAdd, setAllowToAdd] = useState<boolean>(false);
+  const [addBtnClk, setAddBtnClk] = useState<boolean>(false);
+
 
   const markerListFull = allMarkers;
 
@@ -39,9 +44,16 @@ export const Map = () => {
     updateVisibleMarkers();
 
     const idleListener = maps.addListener("idle", updateVisibleMarkers);
+    const zoomChangedListener = maps.addListener(
+      "zoom_changed",
+      updateVisibleMarkers
+    );
 
-    return () => google.maps.event.removeListener(idleListener);
-  }, [maps]);
+    return () => {
+      google.maps.event.removeListener(idleListener);
+      google.maps.event.removeListener(zoomChangedListener);
+    };
+  }, [maps, allMarkers]);
 
   const onLoad = React.useCallback(function callback(map: any) {
     setMaps(map);
@@ -60,9 +72,12 @@ export const Map = () => {
 
   const handleSaveMarker = (markerData: MarkerType) => {
     console.log("New Marker Data:", markerData);
-    setVisibleMarkers([...visibleMarkers, markerData]);
-    setAllMarkers((prevMarkers) => [...prevMarkers, markerData]);
+    const markerWithId = { ...markerData, id: lastAssignedId + 1 };
+    console.log(markerWithId);
+    setVisibleMarkers([...visibleMarkers, markerWithId]);
+    setAllMarkers((prevMarkers) => [...prevMarkers, markerWithId]);
     setIsFormVisible(false);
+    setLastAssignedId(lastAssignedId + 1);
   };
 
   const handleCloseForm = () => {
@@ -74,6 +89,20 @@ export const Map = () => {
   const handleCloseHotel = () => {
     handleActiveMarker(null);
   };
+
+  const handleCloseTip = () => {
+    setAddBtnClk(false);
+  };
+
+  const handleAddAnnouncment = (ev:any) => {
+    console.log("start")
+    if(allowToAdd){
+        setPosition({ lat: ev.latLng.lat(), lng: ev.latLng.lng() });
+        setIsFormVisible(true);
+        setAllowToAdd(false); 
+        handleActiveMarker(null);
+    } 
+};
 
   return (
     <div className="map__container">
@@ -87,9 +116,7 @@ export const Map = () => {
               onLoad={onLoad}
               onUnmount={onUnmount}
               onClick={(ev: any) => {
-                setPosition({ lat: ev.latLng.lat(), lng: ev.latLng.lng() });
-                setIsFormVisible(true);
-                handleActiveMarker(null);
+                handleAddAnnouncment(ev)
               }}
             >
               {allMarkers.map((contact) => (
@@ -100,8 +127,13 @@ export const Map = () => {
                     handleActiveMarker(contact);
                     console.log(activeMarker);
                   }}
-                  onMouseOver={()=>{setMouseOver(!mouseOver)}}
-                  onMouseOut={()=>{setMouseOver(!mouseOver)}}
+                  onMouseOver={() => {
+                    setMarkerSelectedId(contact.id);
+                    console.log("here", contact.id);
+                  }}
+                  onMouseOut={() => {
+                    setMarkerSelectedId(null);
+                  }}
                 >
                   <div>{contact.title}</div>
                 </MarkerF>
@@ -110,17 +142,26 @@ export const Map = () => {
           </article>
         </article>
         <aside className="map__hotel-list">
-          <h1>Available hotels in the area</h1>
+          <h1 className="map__list-name">Available hotels in the area</h1>
           {visibleMarkers.map((markerItem, id) => {
+            const isActive =
+              markerItem.id === (markerSelectedId ? markerSelectedId : null);
             return (
-              <motion.div whileHover={{ scale: 1.07 }} key={id} onClick={()=>{setActiveMarker(markerItem)}}>
-                <ul key={id}>
+              <motion.div
+                whileHover={{ scale: 1.07 }}
+                key={id}
+                onClick={() => {
+                  setActiveMarker(markerItem);
+                }}
+              >
+                <ul key={id} className={isActive ? "active-marker" : ""}>
                   <MarkerComponent marker={markerItem} />
                 </ul>
               </motion.div>
             );
           })}
         </aside>
+        <button className="map__addNewHotel" onClick={(e)=>{e.preventDefault(); setAllowToAdd(true); setAddBtnClk(true)}}>add</button>
         <article className="map__add-marker-form">
           <div>
             {isFormVisible ? (
@@ -142,13 +183,16 @@ export const Map = () => {
         </article>
       </section>
       <div className="map__active-marker">
-        {activeMarker && <ActiveMarker marker={activeMarker} onClose={handleCloseHotel}/>}
+        {activeMarker && (
+          <ActiveMarker marker={activeMarker} onClose={handleCloseHotel} />
+        )}
       </div>
-      <div
-          className={
-             (activeMarker ? "color" : "")
-          }
-        ></div>
+      <div className="map__tip">
+        {addBtnClk && (
+          <Tip onClose={handleCloseTip} />
+        )}
+      </div>
+      <div className={activeMarker ? "color" : ""}></div>
     </div>
   );
 };

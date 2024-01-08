@@ -1,7 +1,7 @@
 import './App.css';
-import {Map} from './components/Map/Map.tsx'
+import { Map } from './components/Map/Map.tsx'
 import { useJsApiLoader } from '@react-google-maps/api';
-import AddMarkerFormComponent from './components/AddMarker/AddMarkerForm.tsx';
+import  Nav  from './components/Nav/Nav.tsx';
 
 const API_KEY = process.env.REACT_APP_API_KEY
 
@@ -21,6 +21,7 @@ const App= () => {
 
   return (
     <section>
+      < Nav/>
     <form className="App">
       {isLoaded? <Map/>: <h2>Loading</h2> }
     </form>
