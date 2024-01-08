@@ -1,0 +1,31 @@
+.hotel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    margin: 3px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    max-width: 200px;
+}
+  
+.hotel__img-wrapper {
+    width: 80%;
+    overflow: hidden;
+}
+  
+.hotel__img {
+    width: 100%;
+    height: auto;
+}
+  
+.hotel__title {
+    font-size: 16px;
+    margin: 8px 0;
+}
+  
+.hotel__price {
+    font-size: 14px;
+    color: #555;
+}
