@@ -2,6 +2,8 @@ import * as React from "react";
 import { Component } from "react";
 import { MarkerType } from "../../dataTypes";
 import './css/Marker.scss'
+
+
 export class MarkerComponent extends Component<{ marker: MarkerType }> {
   constructor(props: { marker: MarkerType }) {
     super(props);
