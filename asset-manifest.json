@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/google-maps-hotels-advertisements/static/css/main.dede5e50.css",
+    "main.js": "/google-maps-hotels-advertisements/static/js/main.5aa2533d.js",
+    "index.html": "/google-maps-hotels-advertisements/index.html",
+    "main.dede5e50.css.map": "/google-maps-hotels-advertisements/static/css/main.dede5e50.css.map",
+    "main.5aa2533d.js.map": "/google-maps-hotels-advertisements/static/js/main.5aa2533d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dede5e50.css",
+    "static/js/main.5aa2533d.js"
+  ]
+}
