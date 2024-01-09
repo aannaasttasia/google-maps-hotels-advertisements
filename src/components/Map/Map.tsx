@@ -142,7 +142,6 @@ export const Map = () => {
           </article>
         </article>
         <aside className="map__hotel-list">
-          <h1 className="map__list-name">Available hotels in the area</h1>
           {visibleMarkers.map((markerItem, id) => {
             const isActive =
               markerItem.id === (markerSelectedId ? markerSelectedId : null);

@@ -9,11 +9,6 @@ export default class Nav extends Component {
         <nav className="navigation">
           <div className=" author">AHvrlk</div>
           <div className="container">
-            <ul className="navbar-nav">
-              <motion.li className="nav-item" whileHover={{ scale: 1.1 }}>
-                <nav className="nav-link">Hotels</nav>
-              </motion.li>
-            </ul>
           </div>
         </nav>
       </div>
