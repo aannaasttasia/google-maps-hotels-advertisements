@@ -14,6 +14,7 @@
     width: 100%;
     overflow: hidden;
     border-radius: 8px;
+    min-height: 400px;
 }
   
 .hotel-active__img {
@@ -46,7 +47,7 @@
 .hotel-active__close {
     position: absolute;
     right: 2px;
-    top: 5px;
+    top: 6px;
     cursor: pointer;
     z-index: 10;
     margin: 5px;
@@ -69,4 +70,32 @@
   
 .hotel-active__close:after {
     transform: rotate(-45deg);
+}
+
+@media (max-width: 768px){
+    .hotel-active {
+        min-width: 400px;
+        padding: 30px;
+      }
+    .hotel-active__img-wrapper {
+        min-height: 200px;
+    }
+}
+
+
+@media (max-width: 600px){
+    .hotel-active {
+        min-width: 300px;
+        padding: 30px;
+    }
+    .hotel-active__img-wrapper {
+        min-height: 150px;
+    }
+    
+}
+
+@media (max-width: 320px){
+    .hotel-active {
+        min-width: 200px;
+    }
 }
